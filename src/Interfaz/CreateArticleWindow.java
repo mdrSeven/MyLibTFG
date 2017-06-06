@@ -10,9 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import static Helpers.InterfaceHelper.*;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  *
@@ -29,7 +32,7 @@ public class CreateArticleWindow extends JFrame{
     JLabel codeLabel = new JLabel("Código:");
     JTextField codeText = new JTextField(13);
     JLabel amountLabel = new JLabel("Cantidad:");
-    JTextField amountText = new JTextField(3);
+    JTextField amountText = new JTextField(5);
     
     //JPanel - Nombre y precio
     JPanel nameAndPricePanel = new JPanel();
@@ -37,7 +40,7 @@ public class CreateArticleWindow extends JFrame{
     JLabel nameLabel = new JLabel("Nombre:");
     JTextField nameText = new JTextField(13);
     JLabel priceLabel = new JLabel("Precio:");
-    JTextField priceText = new JTextField(5);
+    JTextField priceText = new JTextField(7);
     JLabel ivaPercentageLabel = new JLabel("IVA: ");
     JTextField ivaPercentage = new JTextField(3);
     
@@ -55,14 +58,18 @@ public class CreateArticleWindow extends JFrame{
             
     public CreateArticleWindow(){
         setLayout(box);
+        setTitle("Crear Artículo");
+        descriptionTextArea.setText("Descripción");
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+        descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(border,
+            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, WIDTH));
         addComponentsToPanel(codeAndAmountPanel, codeLabel, codeText, amountLabel, amountText);
         addComponentsToPanel(nameAndPricePanel, nameLabel, nameText, priceLabel, priceText);
         addComponentsToPanel(descriptionAndButtonsPanel, descriptionTextArea, buttonsPanel);
-        buttonsPanel.add(createButton, 0);
         buttonsPanel.add(cancelButton, 0);
-        //addComponentsToMainFrame(this, codeAndAmountPanel, nameAndPricePanel, descriptionAndButtonsPanel);
-        addComponentsToMainFrame(this, codeAndAmountPanel, nameAndPricePanel);
+        buttonsPanel.add(createButton, 0);
+        addComponentsToMainFrame(this, codeAndAmountPanel, nameAndPricePanel, descriptionAndButtonsPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);

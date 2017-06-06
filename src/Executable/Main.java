@@ -8,6 +8,7 @@ package Executable;
 import static Helpers.JsonHelper.*;
 import Helpers.SettingsHelper;
 import Interfaz.CreateArticleWindow;
+import Interfaz.CreateClientWindow;
 import Interfaz.MainWindow;
 import Interfaz.SelectBillWindow;
 import java.io.IOException;
@@ -18,6 +19,6 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String args[]) throws ClassNotFoundException, IOException{
-        new CreateArticleWindow();
+        new CreateClientWindow();
     }
 }
