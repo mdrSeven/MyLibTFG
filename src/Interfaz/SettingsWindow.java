@@ -8,6 +8,8 @@ package Interfaz;
 import javax.swing.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static Helpers.InterfaceHelper.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -48,6 +50,11 @@ public class SettingsWindow extends JFrame{
     JButton cancelButton = new JButton("Cancelar");
     
     public SettingsWindow(){
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception ex){
+            
+        }
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(box);
         mainPanel.setLayout(new BoxLayout(mainPanel, Y_AXIS));        
