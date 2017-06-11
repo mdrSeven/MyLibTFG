@@ -40,7 +40,7 @@ public class CreateArticleEvents implements FocusListener, ActionListener {
     @Override
     public void focusLost(FocusEvent fe) {
         if (idElement == PRICE_TEXT) {
-            if (!Validators.validateDouble(CreateArticleWindow.priceText.getText())) {
+            if (!Validators.validateNumber(CreateArticleWindow.priceText.getText())) {
                 CreateArticleWindow.priceText.setText("");
                 JOptionPane.showMessageDialog(null, "Ese precio no puede ser establecido", "Error", JOptionPane.ERROR_MESSAGE);
             }

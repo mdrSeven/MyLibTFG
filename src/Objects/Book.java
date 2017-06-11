@@ -95,7 +95,7 @@ public class Book{
     }
     
     public Boolean isValid(){
-        return !(!Validators.validateIsbn13(this.code) || this.name.isEmpty() || this.ivaPercentage < 1 || this.price <= 0);
+        return !(!Validators.validateIsbn13(this.code) || this.amount < 0 || this.name.isEmpty() || this.ivaPercentage < 1 || this.price < 0);
     }
 
     

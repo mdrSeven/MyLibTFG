@@ -58,9 +58,13 @@ public class JsonHelper {
     public static void editBook(Book book) throws FileNotFoundException, IOException {
         ArrayList<Book> bookList = removeBook(book, true);
 
-        bookList.add(book);
-        saveBookList(bookList);
-        JOptionPane.showMessageDialog(null, "Artículo editado", "Artículo Editado", JOptionPane.INFORMATION_MESSAGE);
+        if (validateBookInsertion(bookList, book)) {
+            bookList.add(book);
+            saveBookList(bookList);
+            JOptionPane.showMessageDialog(null, "Artículo editado", "Artículo Editado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ese ISBN ya existe en la base de datos!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static Book searchBook(String code) throws FileNotFoundException {

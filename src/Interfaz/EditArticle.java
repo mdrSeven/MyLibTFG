@@ -69,7 +69,8 @@ public class EditArticle extends JFrame{
 
         //Eventos
         searchButton.addActionListener(new EditArticleEvents(SEARCH_BUTTON));
-        
+        saveButton.addActionListener(new EditArticleEvents(SAVE_BUTTON));
+        cancelButton.addActionListener(new EditArticleEvents(CANCEL_BUTTON));
         // <editor-fold defaultstate="collapsed" desc="Ajustes estéticos">
         codeLabel.setText("Código:");
 
@@ -202,6 +203,9 @@ public class EditArticle extends JFrame{
         for(Component v : mainPanel.getComponents()){
             v.setEnabled(status);
         }
+        codeText.setEnabled(!status);
+        searchButton.setEnabled(!status);
+        descriptionText.setEnabled(status);
         deleteArticleButton.setEnabled(status);
         saveButton.setEnabled(status);
         cancelButton.setEnabled(status);
@@ -211,6 +215,7 @@ public class EditArticle extends JFrame{
         public static int SEARCH_BUTTON = 1;
         public static int CLOSE_BUTTON = 2;
         public static int DELETE_BUTTON = 3;
-        public static int CANCEL_BUTTON = 4;
+        public static int SAVE_BUTTON = 4;
+        public static int CANCEL_BUTTON = 5;
     }
 }

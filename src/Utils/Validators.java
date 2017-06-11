@@ -29,7 +29,7 @@ public class Validators {
         return validator.isValid(email);
     }
 
-    public static Boolean validateDouble(String doubleToValidate) {
+    public static Boolean validateNumber(String doubleToValidate) {
         Boolean result;
 
         try {
