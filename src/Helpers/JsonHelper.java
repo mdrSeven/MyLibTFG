@@ -65,11 +65,7 @@ public class JsonHelper {
         ArrayList<Client> clientsList = getAllClients();
         
         clientsList.add(client);
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(clientsList);
-        try (FileWriter fw = new FileWriter(clientsPath)) {
-            fw.write(json);
-        }
+        saveClientList(clientsList);
         JOptionPane.showMessageDialog(null, "Cliente insertado correctamente", "Cliente Insertado", JOptionPane.INFORMATION_MESSAGE);
     }
     
@@ -81,10 +77,43 @@ public class JsonHelper {
             }
         }
         return null;
+        
     }
     
-    public static void editClient(Client client){
+    public static void editClient(Client client) throws IOException{
+        ArrayList<Client> clientsList = removeClient(client, true);
+        
+        clientsList.add(client);
+        saveClientList(clientsList);
+        JOptionPane.showMessageDialog(null, "Cliente editado", "Cliente Editado", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    
+    
+    public static ArrayList<Client> removeClient(Client client, boolean isEditing) throws IOException{
         ArrayList<Client> clientsList = getAllClients();
+        
+        for(Client c : clientsList){
+            if(c.equals(client)){
+                clientsList.remove(c);
+                if(!isEditing){
+                    saveClientList(clientsList);
+                    JOptionPane.showMessageDialog(null, "Cliente eliminado.", "Cliente eliminado", JOptionPane.INFORMATION_MESSAGE);
+                    return null;
+                }
+                return clientsList;
+            }
+        }
+        return null;
+        
+    }
+    
+    private static void saveClientList(ArrayList<Client> clientsList) throws IOException{
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(clientsList);
+        try (FileWriter fw = new FileWriter(clientsPath)) {
+            fw.write(json);
+        }
     }
 
 }

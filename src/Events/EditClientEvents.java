@@ -11,6 +11,9 @@ import static Interfaz.EditClient.EditClientConstants.*;
 import Objects.Client;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,8 +35,22 @@ public class EditClientEvents implements ActionListener {
                 searchClient();
                 break;
             case SAVE_BUTTON:
-                saveClient();
+                try {
+                    saveClient();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
+            case DELETE_BUTTON: {
+                try {
+                    deleteClient();
+                } catch (IOException ex) {
+                    Logger.getLogger(EditClientEvents.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case CLOSE_BUTTON:
+            break;
         }
     }
 
@@ -60,10 +77,11 @@ public class EditClientEvents implements ActionListener {
         EditClient.togglePanel(true);
     }
 
-    private void saveClient() {
+    private void saveClient() throws IOException {
         Client clientToSave = getClient();
-        
-        //JsonHelper.
+
+        System.out.println("Entrado");
+        JsonHelper.editClient(clientToSave);
     }
 
     private Client getClient() {
@@ -74,8 +92,13 @@ public class EditClientEvents implements ActionListener {
         String province = EditClient.provinceText.getText();
         String email = EditClient.emailText.getText();
         int phone = Integer.parseInt(EditClient.phoneText.getText());
-        
+
         return new Client(name, dni, address, poblation, province, email, phone);
+    }
+
+    private void deleteClient() throws IOException {
+        Client clientToDelete = getClient();
+        JsonHelper.removeClient(clientToDelete, false);
     }
 
 }

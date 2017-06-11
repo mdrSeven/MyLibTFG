@@ -8,6 +8,8 @@ package Interfaz;
 import Events.EditClientEvents;
 import static Interfaz.EditClient.EditClientConstants.*;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -16,7 +18,7 @@ import javax.swing.*;
  *
  * @author Pablo
  */
-public class EditClient extends JFrame{
+public class EditClient extends JFrame implements ActionListener{
     
     public static javax.swing.JLabel addressLabel;
     public static javax.swing.JTextField addressText;
@@ -202,7 +204,7 @@ public class EditClient extends JFrame{
         
         //Eventos
         searchButton.addActionListener(new EditClientEvents(SEARCH_BUTTON));
-        closeButton.addActionListener(new EditClientEvents(CLOSE_BUTTON));
+        closeButton.addActionListener(this);
         deleteButton.addActionListener(new EditClientEvents(DELETE_BUTTON));
         saveButton.addActionListener(new EditClientEvents(SAVE_BUTTON));
         cancelButton.addActionListener(new EditClientEvents(CANCEL_BUTTON));
@@ -211,12 +213,21 @@ public class EditClient extends JFrame{
         pack();
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
     
     public static void togglePanel(Boolean status){
         for(Component v : mainPanel.getComponents()){
             v.setEnabled(status);
         }
+    }
+    public static void closeWindow(){
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
     }
     
     public interface EditClientConstants{

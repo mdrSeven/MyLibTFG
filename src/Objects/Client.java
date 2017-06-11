@@ -84,5 +84,8 @@ public class Client {
         this.phone = phone;
     }
     
+    public boolean equals(Client c){
+        return this.getDni().equalsIgnoreCase(c.getDni());
+    }
     
 }
