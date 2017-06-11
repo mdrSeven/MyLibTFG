@@ -1,6 +1,7 @@
 package Helpers;
 
 import Objects.Book;
+import Objects.Client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -20,42 +21,70 @@ import java.io.Writer;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class JsonHelper {
-    
+
     static JsonWriter writer;
-    static String path = "C:\\Users\\Pablo Infantes\\Documents\\Claves\\Libro.json";
-    
-    public static void createBook() throws IOException{
+    static String clientsPath = "C:\\MyLib\\Clientes.json";
+
+    public static void createBook() throws IOException {
+//        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        // writer = new JsonWriter(new FileWriter("C:\\Users\\Pablo Infantes\\Documents\\Claves\\Libro.json"));
+//        String json = gson.toJson(testSettings());
+//        try (FileWriter fw = new FileWriter(path)) {
+//            fw.write(json);
+//        }
+    }
+
+    public static void readBooks() throws FileNotFoundException {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-       // writer = new JsonWriter(new FileWriter("C:\\Users\\Pablo Infantes\\Documents\\Claves\\Libro.json"));
-        String json = gson.toJson(testSettings());
-        try (FileWriter fw = new FileWriter(path)) {
-            fw.write(json);
-        }
-    }
-    
-    public static ArrayList<Book> testSettings(){
-        ArrayList<Book> bookList = new ArrayList();
-        for(int n=0;n<4;n++){
-            bookList.add(new Book(n,21, (10+n), "Libroo "+n, "Es un libro muy bonito. Numero "+n));
-        }
-        return bookList;
-    }
-    
-    public static void writeFile(String test) throws IOException{
-            
-    }
-    
-    public static void readBooks() throws FileNotFoundException{
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileReader fr = new FileReader(path);
-        Type listType = new TypeToken<ArrayList<Book>>(){}.getType();
+        FileReader fr = new FileReader(clientsPath);
+        Type listType = new TypeToken<ArrayList<Book>>() {
+        }.getType();
         ArrayList<Book> books = gson.fromJson(fr, listType);
-        
-        for(Book book : books){
+
+        for (Book book : books) {
             System.out.println(book.toString());
         }
     }
+
+    private static ArrayList<Client> getAllClients() {
+        try {
+            final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileReader fr = new FileReader(clientsPath);
+            Type listType = new TypeToken<ArrayList<Client>>() {
+            }.getType();
+            return gson.fromJson(fr, listType);
+        } catch (FileNotFoundException ex) {
+            return new ArrayList<>();
+        }
+    }
     
+    public static void insertClient(Client client) throws IOException{
+        ArrayList<Client> clientsList = getAllClients();
+        
+        clientsList.add(client);
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(clientsList);
+        try (FileWriter fw = new FileWriter(clientsPath)) {
+            fw.write(json);
+        }
+        JOptionPane.showMessageDialog(null, "Cliente insertado correctamente", "Cliente Insertado", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public static Client searchClient(String dni){
+        ArrayList<Client> clientsList = getAllClients();
+        for(Client client : clientsList){
+            if(client.getDni().equalsIgnoreCase(dni)){
+                return client;
+            }
+        }
+        return null;
+    }
+    
+    public static void editClient(Client client){
+        ArrayList<Client> clientsList = getAllClients();
+    }
+
 }

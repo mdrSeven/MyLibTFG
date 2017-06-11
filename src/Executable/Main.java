@@ -11,7 +11,7 @@ import Interfaz.CreateArticleWindow;
 import Interfaz.CreateClientWindow;
 import Interfaz.MainWindow;
 import Interfaz.EditArticle;
-import Interfaz.VentanaPorRediseñar;
+import Interfaz.EditClient;
 import Interfaz.SelectBillWindow;
 import Interfaz.SettingsWindow;
 import java.io.IOException;
@@ -22,6 +22,6 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String args[]) throws ClassNotFoundException, IOException{
-        new VentanaPorRediseñar();
+       new EditClient();
     }
 }
