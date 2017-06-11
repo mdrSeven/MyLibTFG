@@ -13,6 +13,7 @@ import Interfaz.MainWindow;
 import Interfaz.EditArticle;
 import Interfaz.EditClient;
 import Interfaz.SelectBillWindow;
+import Interfaz.SelectClients;
 import Interfaz.SettingsWindow;
 import java.io.IOException;
 
@@ -22,7 +23,6 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String args[]) throws ClassNotFoundException, IOException{
-       new EditArticle();
-        
+       new MainWindow();
     }
 }

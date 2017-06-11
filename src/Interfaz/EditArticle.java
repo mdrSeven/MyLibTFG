@@ -70,6 +70,7 @@ public class EditArticle extends JFrame{
         //Eventos
         searchButton.addActionListener(new EditArticleEvents(SEARCH_BUTTON));
         saveButton.addActionListener(new EditArticleEvents(SAVE_BUTTON));
+        deleteArticleButton.addActionListener(new EditArticleEvents(DELETE_BUTTON));
         cancelButton.addActionListener(new EditArticleEvents(CANCEL_BUTTON));
         // <editor-fold defaultstate="collapsed" desc="Ajustes estéticos">
         codeLabel.setText("Código:");

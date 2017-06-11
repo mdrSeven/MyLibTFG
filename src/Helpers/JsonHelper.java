@@ -95,7 +95,7 @@ public class JsonHelper {
         return null;
     }
 
-    private static ArrayList<Client> getAllClients() {
+    public static ArrayList<Client> getAllClients() {
         try {
             final Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileReader fr = new FileReader(clientsPath);

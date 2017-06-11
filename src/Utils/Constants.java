@@ -11,6 +11,6 @@ package Utils;
  */
 public class Constants {
     public static int defaultIvaPercentage = 21;
-    public static String SettingsPath = "C:\\TestFolder";
+    public static String SettingsPath = "C:\\MyLib\\Settings.set";
     public static int defaultMaxStock = 40;
 }

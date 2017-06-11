@@ -6,13 +6,15 @@ import javax.swing.*;
 import static Helpers.InterfaceHelper.*;
 import static Interfaz.CreateClientWindow.CreateClientConstants.SAVE_BUTTON;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static javax.swing.BoxLayout.Y_AXIS;
 
 /**
  *
  * @author Pablo
  */
-public class CreateClientWindow extends JFrame{
+public class CreateClientWindow extends JFrame implements ActionListener{
     //JPanel - Paneles principales
     public static JPanel firstPanel = new JPanel();
     public static JPanel secondPanel = new JPanel();
@@ -55,6 +57,7 @@ public class CreateClientWindow extends JFrame{
         
         //Eventos
         createButton.addActionListener(new CreateClientEvents(SAVE_BUTTON));
+        cancelButton.addActionListener(this);
         
         firstPanel.setLayout(new BoxLayout(firstPanel, Y_AXIS));
         secondPanel.setLayout(new BoxLayout(secondPanel, Y_AXIS));
@@ -67,6 +70,11 @@ public class CreateClientWindow extends JFrame{
         addComponentsToMainFrame(this, firstPanel, secondPanel);
         pack();
         setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        this.dispose();
     }
     
     public interface CreateClientConstants {
