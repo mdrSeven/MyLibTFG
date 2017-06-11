@@ -49,7 +49,9 @@ public class EditClientEvents implements ActionListener {
                 }
             }
             break;
-            case CLOSE_BUTTON:
+            case CANCEL_BUTTON:
+                EditClient.togglePanel(false);
+                EditClient.cleanPanel();
             break;
         }
     }

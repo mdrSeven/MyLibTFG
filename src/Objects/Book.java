@@ -5,13 +5,16 @@
  */
 package Objects;
 
+import Utils.Validators;
+
 /**
  *
  * @author Admin
  */
-public class Book {
-    int code;
+public class Book{
+    String code;
     int ivaPercentage;
+    int amount;
     double price;
     String name;
     String details;
@@ -20,8 +23,9 @@ public class Book {
         
     }
     
-    public Book(int code, int ivaPercentage, double price, String name, String details){
+    public Book(String code, int amount, int ivaPercentage, double price, String name, String details){
         this.code = code;
+        this.amount = amount;
         this.ivaPercentage = ivaPercentage;
         this.price = price;
         this.name = name;
@@ -37,6 +41,62 @@ public class Book {
         toPrint += "\nCodigo: "+this.code;
         return toPrint;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
     
+    public int getAmount(){
+        return amount;
+    }
+    
+    public void setAmount(int amount){
+        this.amount = amount;
+    }
+
+    public int getIvaPercentage() {
+        return ivaPercentage;
+    }
+
+    public void setIvaPercentage(int ivaPercentage) {
+        this.ivaPercentage = ivaPercentage;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+    
+    public Boolean equals(Book book){
+        return this.code.equalsIgnoreCase(book.code);
+    }
+    
+    public Boolean isValid(){
+        return !(!Validators.validateIsbn13(this.code) || this.name.isEmpty() || this.ivaPercentage < 1 || this.price <= 0);
+    }
+
     
 }

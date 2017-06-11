@@ -221,8 +221,15 @@ public class EditClient extends JFrame implements ActionListener{
             v.setEnabled(status);
         }
     }
-    public static void closeWindow(){
-        
+    
+    public static void cleanPanel(){
+        for(Component v : mainPanel.getComponents()){
+            if(v instanceof JTextField){
+                JTextField punt = (JTextField)v;
+                punt.setText("");
+            }
+                
+        }
     }
 
     @Override
