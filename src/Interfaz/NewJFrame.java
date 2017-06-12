@@ -30,7 +30,7 @@ public class NewJFrame extends javax.swing.JFrame {
         amountSpinner = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         codeText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        addArticleButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         finishBillButton = new javax.swing.JButton();
         removeRowButton = new javax.swing.JButton();
@@ -44,6 +44,8 @@ public class NewJFrame extends javax.swing.JFrame {
         subTotalText = new javax.swing.JTextField();
         totalLabel = new javax.swing.JLabel();
         totalText = new javax.swing.JTextField();
+        billNumberLabel = new javax.swing.JLabel();
+        billNumberText = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newBillItem = new javax.swing.JMenuItem();
@@ -66,7 +68,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Código del artículo:");
 
-        jButton1.setText("Añadir");
+        addArticleButton.setText("Añadir");
 
         removeButton.setText("Quitar");
 
@@ -111,6 +113,10 @@ public class NewJFrame extends javax.swing.JFrame {
         subTotalLabel.setText("SUBTOTAL:");
 
         totalLabel.setText("TOTAL:");
+
+        billNumberLabel.setText("Nº Factura: ");
+
+        billNumberText.setText("0");
 
         jMenu1.setText("Factura");
 
@@ -183,7 +189,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(codeText, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(addArticleButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -203,9 +209,16 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(totalLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(totalText, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(billNumberLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(billNumberText))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(totalLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalText, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -216,7 +229,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(amountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(codeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(addArticleButton)
                     .addComponent(removeButton)
                     .addComponent(finishBillButton)
                     .addComponent(removeRowButton))
@@ -232,7 +245,10 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalLabel)
                     .addComponent(totalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(billNumberLabel)
+                    .addComponent(billNumberText)))
         );
 
         pack();
@@ -274,7 +290,10 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addArticleButton;
     private javax.swing.JSpinner amountSpinner;
+    private javax.swing.JLabel billNumberLabel;
+    private javax.swing.JLabel billNumberText;
     private javax.swing.JMenuItem billRefundItem;
     private javax.swing.JTextField codeText;
     private javax.swing.JTextField discountText;
@@ -282,7 +301,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem editClientItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JButton finishBillButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;

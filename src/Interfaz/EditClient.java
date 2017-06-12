@@ -48,11 +48,6 @@ public class EditClient extends JFrame implements ActionListener{
     }
 
     private void initComponents() {
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch(Exception ex){
-        
-        }
         
         nifLabel = new javax.swing.JLabel();
         nifText = new javax.swing.JTextField();

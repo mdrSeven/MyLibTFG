@@ -15,6 +15,7 @@ import Interfaz.EditClient;
 import Interfaz.SelectBillWindow;
 import Interfaz.SelectClients;
 import Interfaz.SettingsWindow;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -23,6 +24,9 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String args[]) throws ClassNotFoundException, IOException{
+        File directory = new File("C:\\MyLib");
+        if(!directory.exists())
+            directory.mkdir();
        new MainWindow();
     }
 }
