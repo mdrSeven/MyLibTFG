@@ -27,7 +27,7 @@ public class Settings implements Serializable{
         this.checkDNI = dni;
         this.stockWarning = stock;
         this.autoSearch = autosearch;
-        this.securityStock = securityStock;
+        this.securityStock = securitystock;
     }
     
     public void setToDefaultValues(){
@@ -70,8 +70,8 @@ public class Settings implements Serializable{
     }
     
     public static Settings getInstance(){
-        return new Settings(SettingsWindow.nifCheck.isEnabled(), SettingsWindow.stockAlertCheck.isEnabled()
-                            , SettingsWindow.autoSearchCheck.isEnabled(), (Integer)SettingsWindow.securityStockSpinner.getValue());
+        return new Settings(SettingsWindow.nifCheck.isSelected(), SettingsWindow.stockAlertCheck.isSelected()
+                            , SettingsWindow.autoSearchCheck.isSelected(), (Integer)SettingsWindow.securityStockSpinner.getValue());
     }
     
 }

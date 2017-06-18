@@ -6,24 +6,26 @@
 package Objects;
 
 import Utils.Validators;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Admin
  */
-public class Book{
+public class Book {
+
     String code;
     int ivaPercentage;
     int amount;
     double price;
     String name;
     String details;
-    
-    public Book(){
-        
+
+    public Book() {
+
     }
-    
-    public Book(String code, int amount, int ivaPercentage, double price, String name, String details){
+
+    public Book(String code, int amount, int ivaPercentage, double price, String name, String details) {
         this.code = code;
         this.amount = amount;
         this.ivaPercentage = ivaPercentage;
@@ -31,14 +33,14 @@ public class Book{
         this.name = name;
         this.details = details;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         String toPrint = "";
-        toPrint += "Nombre: "+this.name;
-        toPrint += "\nPrecio: "+this.price;
-        toPrint += "\nDetalles: "+this.details;
-        toPrint += "\nCodigo: "+this.code;
+        toPrint += "Nombre: " + this.name;
+        toPrint += "\nPrecio: " + this.price;
+        toPrint += "\nDetalles: " + this.details;
+        toPrint += "\nCodigo: " + this.code;
         return toPrint;
     }
 
@@ -49,12 +51,12 @@ public class Book{
     public void setCode(String code) {
         this.code = code;
     }
-    
-    public int getAmount(){
+
+    public int getAmount() {
         return amount;
     }
-    
-    public void setAmount(int amount){
+
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -89,14 +91,31 @@ public class Book{
     public void setDetails(String details) {
         this.details = details;
     }
-    
-    public Boolean equals(Book book){
+
+    public Boolean equals(Book book) {
         return this.code.equalsIgnoreCase(book.code);
     }
-    
-    public Boolean isValid(){
-        return !(!Validators.validateIsbn13(this.code) || this.amount < 0 || this.name.isEmpty() || this.ivaPercentage < 1 || this.price < 0);
+
+    public Boolean isValid() {
+
+        if (!Validators.validateIsbn13(this.code)) {
+            JOptionPane.showMessageDialog(null, "Ese ISBN es inválido", "Error de inserción", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (this.amount < 0) {
+            JOptionPane.showMessageDialog(null, "Cantidad errónea", "Error de inserción", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (this.name.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío!", "Error de inserción", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (this.ivaPercentage < 1) {
+            JOptionPane.showMessageDialog(null, "El IVA no puede ser inferior a 1", "Error de inserción", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (this.price < 0) {
+            JOptionPane.showMessageDialog(null, "El precio introducido es inválido", "Error de inserción", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
-    
 }

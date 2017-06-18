@@ -30,6 +30,10 @@ public class SettingsHelper implements Serializable {
         Settings currentSettings;
 
         currentSettings = getSettingsFromSettingsFile();
+        SettingsConfig.autoSearch = currentSettings.isAutoSearch();
+        SettingsConfig.checkDNI = currentSettings.isCheckDNI();
+        SettingsConfig.stockWarning = currentSettings.isStockWarning();
+        SettingsConfig.securityStock = currentSettings.getSecurityStock();
     }
 
     private static Settings getSettingsFromSettingsFile() throws FileNotFoundException, IOException, ClassNotFoundException {
@@ -50,6 +54,7 @@ public class SettingsHelper implements Serializable {
     public static void saveSettings(Settings settings) throws FileNotFoundException, IOException {
         ObjectOutputStream oos;
         
+        System.out.println("Getted: "+settings.getSecurityStock());
         SettingsConfig.autoSearch = settings.isAutoSearch();
         SettingsConfig.checkDNI = settings.isCheckDNI();
         SettingsConfig.securityStock = settings.getSecurityStock();

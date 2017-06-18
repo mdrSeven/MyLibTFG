@@ -11,7 +11,9 @@ import static Utils.Validators.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class CreateClientEvents implements ActionListener {
 
@@ -32,6 +34,8 @@ public class CreateClientEvents implements ActionListener {
                 }
                 break;
             case CANCEL_BUTTON:
+                JButton btn = (JButton) ae.getSource();
+                SwingUtilities.getWindowAncestor(btn).dispose();
                 break;
         }
     }

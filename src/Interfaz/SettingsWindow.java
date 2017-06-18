@@ -9,6 +9,7 @@ import Events.SettingsEvents;
 import javax.swing.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static Helpers.InterfaceHelper.*;
+import Utils.SettingsConfig;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -54,7 +55,7 @@ public class SettingsWindow extends JFrame implements ActionListener{
     public static JButton cancelButton = new JButton("Cancelar");
 
     public SettingsWindow() {
-
+        setTitle("Preferencias");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(box);
         mainPanel.setLayout(new BoxLayout(mainPanel, Y_AXIS));
@@ -74,6 +75,7 @@ public class SettingsWindow extends JFrame implements ActionListener{
         addComponentsToPanel(mainPanel, contentPanel, buttonsPanel);
 
         addComponentsToMainFrame(this, mainPanel, buttonsPanel);
+        configureWindow();
         pack();
         setVisible(true);
 
@@ -82,5 +84,12 @@ public class SettingsWindow extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) {
         this.dispose();
+    }
+    
+    private void configureWindow(){
+        stockAlertCheck.setSelected(SettingsConfig.stockWarning);
+        autoSearchCheck.setSelected(SettingsConfig.autoSearch);
+        nifCheck.setSelected(SettingsConfig.checkDNI);
+        securityStockSpinner.setValue((Integer)SettingsConfig.securityStock);
     }
 }

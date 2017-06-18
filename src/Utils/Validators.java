@@ -10,18 +10,22 @@ import org.apache.commons.validator.routines.*;
 public class Validators {
 
     public static Boolean validateDNI(String dni) {
-        String characters = "TRWAGMYFPDXBNJZSQVHLCKE";
-        int dniNumber = Integer.parseInt(dni.substring(0, 8));
-        char dniLetter = dni.charAt(dni.length() - 1);
+        if (SettingsConfig.checkDNI) {
+            String characters = "TRWAGMYFPDXBNJZSQVHLCKE";
+            int dniNumber = Integer.parseInt(dni.substring(0, 8));
+            char dniLetter = dni.charAt(dni.length() - 1);
 
-        System.out.println(dniLetter);
-        System.out.println(dniNumber);
-        System.out.println(characters.charAt((int) (dniNumber % 23)));
-        if (dni.length() != 9) {
-            return false;
+            System.out.println(dniLetter);
+            System.out.println(dniNumber);
+            System.out.println(characters.charAt((int) (dniNumber % 23)));
+            if (dni.length() != 9) {
+                return false;
+            }
+
+            return dniLetter == characters.charAt((int) (dniNumber % 23));
+        } else {
+            return true;
         }
-
-        return dniLetter == characters.charAt((int) (dniNumber % 23));
     }
 
     public static Boolean validateEmail(String email) {
@@ -60,7 +64,7 @@ public class Validators {
 
         try {
             int tot = 0;
-            
+
             for (int i = 0; i < 12; i++) {
                 int digit = Integer.parseInt(isbn.substring(i, i + 1));
                 tot += (i % 2 == 0) ? digit * 1 : digit * 3;

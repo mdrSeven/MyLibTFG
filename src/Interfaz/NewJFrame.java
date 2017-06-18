@@ -27,71 +27,37 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        amountSpinner = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
-        codeText = new javax.swing.JTextField();
-        addArticleButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
-        finishBillButton = new javax.swing.JButton();
-        removeRowButton = new javax.swing.JButton();
+        refundNumber = new javax.swing.JLabel();
+        refundNumberText = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        showAllButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        mainTable = new javax.swing.JTable();
-        selectClientButton = new javax.swing.JButton();
-        selectedClientLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        discountText = new javax.swing.JTextField();
-        subTotalLabel = new javax.swing.JLabel();
-        subTotalText = new javax.swing.JTextField();
-        totalLabel = new javax.swing.JLabel();
-        totalText = new javax.swing.JTextField();
-        billNumberLabel = new javax.swing.JLabel();
-        billNumberText = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        newBillItem = new javax.swing.JMenuItem();
-        billRefundItem = new javax.swing.JMenuItem();
-        registerItem = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        registerArticleItem = new javax.swing.JMenuItem();
-        registerClientItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        editArticleItem = new javax.swing.JMenuItem();
-        editClientItem = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        queryBillsItem = new javax.swing.JMenuItem();
-        queryRefundsItem = new javax.swing.JMenuItem();
-        queryArticlesItem = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        preferencesItem = new javax.swing.JMenuItem();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Código del artículo:");
+        refundNumber.setText("Nº Devolución:");
 
-        addArticleButton.setText("Añadir");
+        searchButton.setText("Buscar");
 
-        removeButton.setText("Quitar");
+        cancelButton.setText("Cancelar");
 
-        finishBillButton.setText("Finalizar Devolución");
+        showAllButton.setText("Mostrar Todo");
 
-        removeRowButton.setText("Eliminar Fila");
-
-        mainTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Nº Articulos", "Código", "Nombre", "Cantidad", "Precio", "IVA", "Detalles"
+                "Nº Devolución", "Nº Factura", "Subtotal", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -102,77 +68,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(mainTable);
-
-        selectClientButton.setText("Seleccionar Cliente");
-
-        selectedClientLabel.setText("Ningun Cliente Seleccionado");
-
-        jLabel2.setText("DESCUENTO(%): ");
-
-        subTotalLabel.setText("SUBTOTAL:");
-
-        totalLabel.setText("TOTAL:");
-
-        billNumberLabel.setText("Nº Factura: ");
-
-        billNumberText.setText("0");
-
-        jMenu1.setText("Factura");
-
-        newBillItem.setText("Nueva Factura");
-        jMenu1.add(newBillItem);
-
-        billRefundItem.setText("Nueva Devolución");
-        jMenu1.add(billRefundItem);
-
-        jMenuBar1.add(jMenu1);
-
-        registerItem.setText("Alta/Devolución");
-
-        jMenu5.setText("Alta");
-
-        registerArticleItem.setText("Artículo");
-        jMenu5.add(registerArticleItem);
-
-        registerClientItem.setText("Cliente");
-        jMenu5.add(registerClientItem);
-
-        registerItem.add(jMenu5);
-
-        editMenu.setText("Modificación");
-
-        editArticleItem.setText("Artículo");
-        editMenu.add(editArticleItem);
-
-        editClientItem.setText("Cliente");
-        editMenu.add(editClientItem);
-
-        registerItem.add(editMenu);
-
-        jMenuBar1.add(registerItem);
-
-        jMenu3.setText("Consultas");
-
-        queryBillsItem.setText("Facturas");
-        jMenu3.add(queryBillsItem);
-
-        queryRefundsItem.setText("Devoluciones");
-        jMenu3.add(queryRefundsItem);
-
-        queryArticlesItem.setText("Artículos");
-        jMenu3.add(queryArticlesItem);
-
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("Configuración");
-
-        preferencesItem.setText("Preferencias");
-        jMenu4.add(preferencesItem);
-
-        jMenuBar1.add(jMenu4);
-
-        setJMenuBar(jMenuBar1);
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,44 +77,17 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(amountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(refundNumber)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(refundNumberText, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(codeText, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addArticleButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeButton)
+                        .addComponent(searchButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(removeRowButton)
+                        .addComponent(showAllButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(finishBillButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(selectClientButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectedClientLabel)
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(discountText, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(subTotalLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(billNumberLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(billNumberText))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(totalLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(totalText, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))))
+                        .addComponent(cancelButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -226,29 +95,14 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(amountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(codeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addArticleButton)
-                    .addComponent(removeButton)
-                    .addComponent(finishBillButton)
-                    .addComponent(removeRowButton))
+                    .addComponent(refundNumber)
+                    .addComponent(refundNumberText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton)
+                    .addComponent(cancelButton)
+                    .addComponent(showAllButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectClientButton)
-                    .addComponent(selectedClientLabel)
-                    .addComponent(jLabel2)
-                    .addComponent(discountText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(subTotalLabel)
-                    .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(totalLabel)
-                    .addComponent(totalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(billNumberLabel)
-                    .addComponent(billNumberText)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -290,41 +144,12 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addArticleButton;
-    private javax.swing.JSpinner amountSpinner;
-    private javax.swing.JLabel billNumberLabel;
-    private javax.swing.JLabel billNumberText;
-    private javax.swing.JMenuItem billRefundItem;
-    private javax.swing.JTextField codeText;
-    private javax.swing.JTextField discountText;
-    private javax.swing.JMenuItem editArticleItem;
-    private javax.swing.JMenuItem editClientItem;
-    private javax.swing.JMenu editMenu;
-    private javax.swing.JButton finishBillButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable mainTable;
-    private javax.swing.JMenuItem newBillItem;
-    private javax.swing.JMenuItem preferencesItem;
-    private javax.swing.JMenuItem queryArticlesItem;
-    private javax.swing.JMenuItem queryBillsItem;
-    private javax.swing.JMenuItem queryRefundsItem;
-    private javax.swing.JMenuItem registerArticleItem;
-    private javax.swing.JMenuItem registerClientItem;
-    private javax.swing.JMenu registerItem;
-    private javax.swing.JButton removeButton;
-    private javax.swing.JButton removeRowButton;
-    private javax.swing.JButton selectClientButton;
-    private javax.swing.JLabel selectedClientLabel;
-    private javax.swing.JLabel subTotalLabel;
-    private javax.swing.JTextField subTotalText;
-    private javax.swing.JLabel totalLabel;
-    private javax.swing.JTextField totalText;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel refundNumber;
+    private javax.swing.JTextField refundNumberText;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JButton showAllButton;
     // End of variables declaration//GEN-END:variables
 }

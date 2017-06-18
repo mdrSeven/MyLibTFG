@@ -5,9 +5,14 @@
  */
 package Interfaz;
 
+import Events.SelectBillEvents;
 import java.awt.FlowLayout;
 import java.util.Calendar;
 import static Helpers.InterfaceHelper.*;
+import Helpers.JsonHelper;
+import static Interfaz.SelectBillWindow.SelectBillConstants.*;
+import Objects.Bill;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -16,65 +21,99 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Pablo Infantes
  */
-public class SelectBillWindow extends JFrame{
-    
+public class SelectBillWindow extends JFrame {
+
     //BoxLayout - Layout principal
     BoxLayout box = new BoxLayout(getContentPane(), WIDTH);
-    
+
     //JPanel - Panel superior
     JPanel topPanel = new JPanel();
-    
+
     //JPanel - Selección de factura
     JPanel billSelectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    
+
     JLabel billNumberLabel = new JLabel("Nº Factura");
-    JTextField billNumberText = new JTextField(14);
-    JButton searchBillButton = new JButton("Buscar");
-    JButton selectBillButton = new JButton("Seleccionar Factura");
-    
+    public static JTextField billNumberText = new JTextField(14);
+    public static JButton searchBillButton = new JButton("Buscar");
+
     //JPanel - Otras acciones
     JPanel otherActionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    
-    JButton showAllButton = new JButton("Mostrar Todo");
-    JButton cancelButton = new JButton("Cancelar");
-    
+
+    public static JButton showAllButton = new JButton("Mostrar Todo");
+    public static JButton cancelButton = new JButton("Cancelar");
+
     //JTable - Facturas encontradas
-    JTable billsTable = new JTable();
-    
-    public SelectBillWindow(){
+    public static JTable billsTable = new JTable();
+
+    public SelectBillWindow() {
         setLayout(box);
         setTitle("Seleccionar Factura");
-        billSelectionPanel.setBorder(new EmptyBorder(0,0,0,100));
-        
-        configureTable();
+        billSelectionPanel.setBorder(new EmptyBorder(0, 0, 0, 100));
+
+        //Eventos
+        searchBillButton.addActionListener(new SelectBillEvents(SEARCH_BUTTON));
+        showAllButton.addActionListener(new SelectBillEvents(SHOW_ALL_BUTTON));
+        billsTable.addMouseListener(new SelectBillEvents(BILLS_TABLE));
+
+        //Configuración de interfaz
+        poblateTable();
         addComponentsToPanel(topPanel, billSelectionPanel, otherActionsPanel);
-        addComponentsToPanel(billSelectionPanel, billNumberLabel, billNumberText, searchBillButton, selectBillButton);
+        addComponentsToPanel(billSelectionPanel, billNumberLabel, billNumberText, searchBillButton);
         addComponentsToPanel(otherActionsPanel, showAllButton, cancelButton);
-        addComponentsToMainFrame(this, topPanel,billsTable.getTableHeader(), billsTable);
+        addComponentsToMainFrame(this, topPanel, billsTable.getTableHeader(), billsTable);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
     }
-    
-    private void configureTable(){
-        DefaultTableModel modelo = new DefaultTableModel();
+
+    public static void poblateTable() {
+        DefaultTableModel modelo = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         modelo.addColumn("Nº Factura");
         modelo.addColumn("DNI/CIF Cliente");
         modelo.addColumn("Fecha");
-        modelo.addColumn("Hora");
         modelo.addColumn("Descuento");
         modelo.addColumn("Subtotal");
         modelo.addColumn("Total");
-       
-        Object[] ob = new Object[7];
-        ob[0] = 4;
-        ob[1] = "77491330Y";
-        ob[2] = Calendar.DAY_OF_MONTH + "/"+Calendar.MONTH + "/"+Calendar.YEAR;
-        ob[3] = Calendar.HOUR_OF_DAY;
-        ob[4] = "25%";
-        ob[5] = "300";
-        ob[6] = "320";
-        modelo.addRow(ob);
+
+        ArrayList<Bill> billList = JsonHelper.getAllBills();
+        for (Bill b : billList) {
+            Object[] ob = new Object[6];
+            ob[0] = b.getBillNumber();
+            ob[1] = b.getAssignedClient() == null ? "Sin cliente" : b.getAssignedClient().getDni();
+            ob[2] = b.getDate();
+            ob[3] = b.getDiscount();
+            ob[4] = b.getSubTotal();
+            ob[5] = b.getTotal();
+            modelo.addRow(ob);
+        }
         billsTable.setModel(modelo);
+    }
+
+    public static void poblateTable(Bill bill) {
+        DefaultTableModel modelo = (DefaultTableModel) billsTable.getModel();
+        modelo.setRowCount(0);
+
+        Object[] ob = new Object[6];
+        ob[0] = bill.getBillNumber();
+        ob[1] = bill.getAssignedClient() == null ? "Sin cliente" : bill.getAssignedClient().getDni();
+        ob[2] = bill.getDate();
+        ob[3] = bill.getDiscount();
+        ob[4] = bill.getSubTotal();
+        ob[5] = bill.getTotal();
+        modelo.addRow(ob);
+    }
+
+    public interface SelectBillConstants {
+
+        public static int SEARCH_BUTTON = 1;
+        public static int SHOW_ALL_BUTTON = 2;
+        public static int BILLS_TABLE = 3;
     }
 }

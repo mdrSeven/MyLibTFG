@@ -71,15 +71,15 @@ public class CreateArticleWindow extends JFrame implements ActionListener{
         
         //Inicialización
         codeText.setText("");
+        nameText.setText("");
+        priceText.setText("");
+        ivaPercentage.setText("");
         descriptionTextArea.setText("Descripción");
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(border,
             BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         
         //Eventos
-        codeText.addFocusListener(new CreateArticleEvents(CODE_TEXT));
-        priceText.addFocusListener(new CreateArticleEvents(PRICE_TEXT));
-        
         createButton.addActionListener(new CreateArticleEvents(CREATE_BUTTON));
         cancelButton.addActionListener(this);
         

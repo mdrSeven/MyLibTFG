@@ -17,6 +17,7 @@ import Interfaz.SelectClients;
 import Interfaz.SettingsWindow;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,6 +28,7 @@ public class Main {
         File directory = new File("C:\\MyLib");
         if(!directory.exists())
             directory.mkdir();
+        SettingsHelper.readSettings();
        new MainWindow();
     }
 }

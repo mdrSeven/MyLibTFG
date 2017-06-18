@@ -1,7 +1,10 @@
 package Helpers;
 
+import Objects.Bill;
 import Objects.Book;
 import Objects.Client;
+import Objects.Refund;
+import Utils.SettingsConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +32,8 @@ public class JsonHelper {
     static JsonWriter writer;
     static String clientsPath = "C:\\MyLib\\Clientes.json";
     static String articlesPath = "C:\\MyLib\\Articulos.json";
+    static String billsPath = "C:\\MyLib\\Facturas.json";
+    static String refundsPath = "C:\\MyLib\\Devoluciones.json";
 
     public static ArrayList<Book> getAllBooks() throws FileNotFoundException {
         try {
@@ -50,7 +55,7 @@ public class JsonHelper {
             saveBookList(bookList);
             JOptionPane.showMessageDialog(null, "Artículo insertado correctamente", "Artículo Insertado", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Ese ISBN ya existe en la base de datos!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ese ISBN ya existe en la base de datosa!", "Error", JOptionPane.ERROR_MESSAGE);
 
         }
     }
@@ -152,6 +157,55 @@ public class JsonHelper {
 
     }
 
+    public static ArrayList<Bill> getAllBills() {
+        try {
+            final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileReader fr = new FileReader(billsPath);
+            Type listType = new TypeToken<ArrayList<Bill>>() {
+            }.getType();
+            return gson.fromJson(fr, listType);
+        } catch (FileNotFoundException ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    public static int getCurrentBillNumber() {
+        ArrayList<Bill> billList = getAllBills();
+        if (billList.isEmpty()) {
+            return 0;
+        } else {
+            return Collections.max(billList).getBillNumber() + 1;
+        }
+    }
+
+    public static void insertBill(Bill bill) throws IOException {
+        ArrayList<Bill> billList = getAllBills();
+
+        billList.add(bill);
+        saveBillList(billList);
+        JOptionPane.showMessageDialog(null, "Factura insertada correctamente", "Factura insertada", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public static Bill searchBill(int billNumber){
+        ArrayList<Bill> billList = getAllBills();
+        
+        for (Bill bill : billList) {
+            if (bill.getBillNumber() == billNumber) {
+                return bill;
+            }
+        }
+        
+        return null;
+    }
+
+    public static void saveBillList(ArrayList<Bill> billList) throws IOException {
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(billList);
+        try (FileWriter fw = new FileWriter(billsPath)) {
+            fw.write(json);
+        }
+    }
+
     private static void saveClientList(ArrayList<Client> clientsList) throws IOException {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(clientsList);
@@ -175,6 +229,79 @@ public class JsonHelper {
             }
         }
         return true;
+    }
+
+    public static void updateStock(Book b) throws IOException {
+        ArrayList<Book> bookList = removeBook(b, true);
+
+        bookList.add(b);
+        saveBookList(bookList);
+
+    }
+
+    public static String[] getBooksWithLowStock() throws FileNotFoundException {
+        ArrayList <Book> bookList = getAllBooks();
+        ArrayList <String> codeList = new ArrayList<>();
+        String[] codes;
+        
+        for(Book b : bookList){
+            if(b.getAmount() < SettingsConfig.securityStock)
+                codeList.add(b.getCode());
+        }
+        
+        codes = new String[codeList.size()];
+        codes = codeList.toArray(codes);
+        return codeList.size() < 1 ? null : codes;
+    }
+    
+
+    public static ArrayList<Refund> getAllRefunds() {
+        try {
+            final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileReader fr = new FileReader(refundsPath);
+            Type listType = new TypeToken<ArrayList<Refund>>() {
+            }.getType();
+            return gson.fromJson(fr, listType);
+        } catch (FileNotFoundException ex) {
+            return new ArrayList<>();
+        }
+    }
+    
+    public static int getCurrentRefundNumber(){
+        ArrayList<Refund> refundList = getAllRefunds();
+        if (refundList.isEmpty()) {
+            return 0;
+        } else {
+            return Collections.max(refundList).getRefundNumber() + 1;
+        }
+    }
+
+    public static void insertRefund(Refund ref) throws IOException {
+        ArrayList<Refund> refundList = getAllRefunds();
+
+        refundList.add(ref);
+        saveRefundList(refundList);
+        JOptionPane.showMessageDialog(null, "Devolución insertada", "Devolución insertada", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void saveRefundList(ArrayList<Refund> refundList) throws IOException {
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(refundList);
+        try (FileWriter fw = new FileWriter(refundsPath)) {
+            fw.write(json);
+        }
+    }
+
+    public static Refund searchRefund(int refundNum) {
+        ArrayList<Refund> refundList = getAllRefunds();
+        
+        for (Refund ref : refundList) {
+            if (ref.getRefundNumber() == refundNum) {
+                return ref;
+            }
+        }
+        
+        return null;
     }
 
 }

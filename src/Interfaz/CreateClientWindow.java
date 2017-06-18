@@ -55,6 +55,14 @@ public class CreateClientWindow extends JFrame implements ActionListener{
         setLayout(new FlowLayout());
         setTitle("Crear cliente");
         
+        //Inicialización
+        nameText.setText("");
+        nifText.setText("");
+        addressText.setText("");
+        poboxText.setText("");
+        phoneText.setText("");
+        emailText.setText("");
+        
         //Eventos
         createButton.addActionListener(new CreateClientEvents(SAVE_BUTTON));
         cancelButton.addActionListener(this);

@@ -23,7 +23,7 @@ public class SettingsEvents implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) {
         Settings actualSettings = Settings.getInstance();
-        
+        System.out.println("Evento: "+actualSettings.getSecurityStock());
         try {
             SettingsHelper.saveSettings(actualSettings);
         } catch (IOException ex) {

@@ -2,12 +2,15 @@ package Interfaz;
 
 import Events.MainWindowEvents;
 import static Helpers.InterfaceHelper.*;
+import Helpers.JsonHelper;
 import static Interfaz.MainWindow.MainWindowConstants.*;
 import static Interfaz.SelectArticles.articlesTable;
 import Objects.Book;
 import Objects.Client;
+import Objects.Product;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,8 +38,9 @@ import static jdk.nashorn.internal.objects.NativeMath.round;
  */
 public class MainWindow extends JFrame {
 
-    public static Client assignedClient;
-
+    public static Client assignedClient = null;
+    public static boolean isRefund = false;
+    
     public static javax.swing.JSpinner amountSpinner;
     public static javax.swing.JMenuItem refundBillItem;
     public static javax.swing.JTextField codeText;
@@ -47,7 +51,7 @@ public class MainWindow extends JFrame {
     public static javax.swing.JButton finishBillButton;
     public static javax.swing.JButton addArticleButton;
     public static javax.swing.JLabel jLabel1;
-    public static javax.swing.JLabel jLabel2;
+    public static javax.swing.JLabel discountLabel;
     public static javax.swing.JMenu jMenu1;
     public static javax.swing.JMenu jMenu3;
     public static javax.swing.JMenu jMenu4;
@@ -58,6 +62,7 @@ public class MainWindow extends JFrame {
     public static javax.swing.JMenuItem newBillItem;
     public static javax.swing.JMenuItem preferencesItem;
     public static javax.swing.JMenuItem queryArticlesItem;
+    public static javax.swing.JMenuItem queryClientsItem;
     public static javax.swing.JMenuItem queryBillsItem;
     public static javax.swing.JMenuItem queryRefundsItem;
     public static javax.swing.JMenuItem registerArticleItem;
@@ -91,7 +96,7 @@ public class MainWindow extends JFrame {
         mainTable = new javax.swing.JTable();
         selectClientButton = new javax.swing.JButton();
         selectedClientLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        discountLabel = new javax.swing.JLabel();
         discountText = new javax.swing.JTextField();
         subTotalLabel = new javax.swing.JLabel();
         subTotalText = new javax.swing.JTextField();
@@ -114,6 +119,7 @@ public class MainWindow extends JFrame {
         queryBillsItem = new javax.swing.JMenuItem();
         queryRefundsItem = new javax.swing.JMenuItem();
         queryArticlesItem = new javax.swing.JMenuItem();
+        queryClientsItem = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         preferencesItem = new javax.swing.JMenuItem();
 
@@ -161,7 +167,9 @@ public class MainWindow extends JFrame {
 
         selectedClientLabel.setText("Ningun Cliente Seleccionado");
 
-        jLabel2.setText("DESCUENTO(%): ");
+        discountLabel.setText("DESCUENTO(%): ");
+        
+        discountText.setText("0");
 
         subTotalLabel.setText("SUBTOTAL:");
 
@@ -215,7 +223,10 @@ public class MainWindow extends JFrame {
 
         queryArticlesItem.setText("Artículos");
         jMenu3.add(queryArticlesItem);
-
+        
+        queryClientsItem.setText("Clientes");
+        jMenu3.add(queryClientsItem);
+        
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Configuración");
@@ -229,8 +240,7 @@ public class MainWindow extends JFrame {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,13 +264,13 @@ public class MainWindow extends JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(selectedClientLabel)
                                         .addGap(78, 78, 78)
-                                        .addComponent(jLabel2)
+                                        .addComponent(discountLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(discountText, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(subTotalLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(layout.createSequentialGroup()
@@ -274,8 +284,7 @@ public class MainWindow extends JFrame {
                                                         .addComponent(totalText, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))))
                         .addContainerGap())
         );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,7 +301,7 @@ public class MainWindow extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(selectClientButton)
                                 .addComponent(selectedClientLabel)
-                                .addComponent(jLabel2)
+                                .addComponent(discountLabel)
                                 .addComponent(discountText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(subTotalLabel)
                                 .addComponent(subTotalText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,14 +324,20 @@ public class MainWindow extends JFrame {
         editClientItem.addActionListener(new MainWindowEvents(EDIT_CLIENT_ITEM));
         queryBillsItem.addActionListener(new MainWindowEvents(QUERY_BILLS_ITEM));
         queryArticlesItem.addActionListener(new MainWindowEvents(QUERY_ARTICLES_ITEM));
+        queryClientsItem.addActionListener(new MainWindowEvents(SELECT_CLIENT_BUTTON));
         queryRefundsItem.addActionListener(new MainWindowEvents(QUERY_REFUND_ITEM));
         preferencesItem.addActionListener(new MainWindowEvents(PREFERENCES_ITEM));
         addArticleButton.addActionListener(new MainWindowEvents(ADD_ARTICLE_BUTTON));
         removeButton.addActionListener(new MainWindowEvents(REMOVE_ARTICLE_BUTTON));
         removeRowButton.addActionListener(new MainWindowEvents(REMOVE_ROW_BUTTON));
         finishBillButton.addActionListener(new MainWindowEvents(FINISH_BILL_BUTTON));
+        selectClientButton.addActionListener(new MainWindowEvents(SELECT_CLIENT_BUTTON));
+        discountText.addKeyListener(new MainWindowEvents(DISCOUNT_FIELD));
 
 //</editor-fold>
+        toggleButtons(false);
+        subTotalText.setEditable(false);
+        totalText.setEditable(false);
         resetTable();
         setVisible(true);
     }
@@ -335,15 +350,28 @@ public class MainWindow extends JFrame {
             amount += (Integer) mainTable.getValueAt(index, 0);
             tbm.removeRow(index);
             Object row[] = {amount, book.getCode(), book.getName(), book.getAmount(),
-            book.getPrice(), book.getIvaPercentage(), book.getDetails()};
+                book.getPrice(), book.getIvaPercentage(), book.getDetails()};
             tbm.addRow(row);
-        }else{
-           Object row[] = {amount, book.getCode(), book.getName(), book.getAmount(),
-            book.getPrice(), book.getIvaPercentage(), book.getDetails()};
-            tbm.addRow(row); 
+        } else {
+            Object row[] = {amount, book.getCode(), book.getName(), book.getAmount(),
+                book.getPrice(), book.getIvaPercentage(), book.getDetails()};
+            tbm.addRow(row);
         }
 
         mainTable.setModel(tbm);
+    }
+    
+    public static void poblateTable(ArrayList<Product> products) throws FileNotFoundException{
+        DefaultTableModel modelo = (DefaultTableModel) mainTable.getModel();
+        modelo.setRowCount(0);
+        
+        for(Product p : products){
+            Book b = JsonHelper.searchBook(p.getCode());
+            Object row[] = {p.getAmount(), b.getCode(), b.getName(), b.getAmount(),
+                            b.getPrice(), b.getIvaPercentage(), b.getDetails()};
+            modelo.addRow(row);
+        }
+        mainTable.setModel(modelo);
     }
 
     public void resetTable() {
@@ -366,19 +394,35 @@ public class MainWindow extends JFrame {
         tbm.removeRow(mainTable.getSelectedRow());
         mainTable.setModel(tbm);
     }
-    
-    public static void updateAmounts(){
+
+    public static void updateAmounts() {
         double subTotal = 0;
         double total = 0;
-        for(int n=0;n<mainTable.getRowCount();n++){
-            int amount = (Integer)mainTable.getValueAt(n, 0);
-            double price = (Double)mainTable.getValueAt(n, 4);
-            subTotal += Math.round(price * amount*100.0)/100.0;
-            total += subTotal + (subTotal * (Integer)(mainTable.getValueAt(n, 5))) / 100;
-            total = Math.round(total * 100.0)/100.0;
+        for (int n = 0; n < mainTable.getRowCount(); n++) {
+            int amount = (Integer) mainTable.getValueAt(n, 0);
+            double price = (Double) mainTable.getValueAt(n, 4);
+            int iva = (Integer)mainTable.getValueAt(n, 5);
+            double rowSubTotal = price * amount;
+            double rowTotal = rowSubTotal + (rowSubTotal*iva/100);
+            subTotal += rowSubTotal;
+            total += rowTotal;
         }
-        subTotalText.setText(""+subTotal);
-        totalText.setText(""+total);
+        subTotalText.setText(String.format("%.2f", subTotal));
+        totalText.setText(String.format("%.2f", total));
+    }
+
+    public static void toggleButtons(boolean status) {
+        removeRowButton.setEnabled(status);
+        finishBillButton.setEnabled(status);
+        selectClientButton.setEnabled(status);
+    }
+
+    public static ArrayList<Product> getProducts() {
+        ArrayList<Product> products = new ArrayList();
+        for(int n=0;n<mainTable.getRowCount();n++){
+            products.add(new Product((String)mainTable.getValueAt(n, 1), (Integer)mainTable.getValueAt(n, 0)));
+        }
+        return products;
     }
 
     public interface MainWindowConstants {
@@ -397,5 +441,7 @@ public class MainWindow extends JFrame {
         public static int REMOVE_ARTICLE_BUTTON = 12;
         public static int REMOVE_ROW_BUTTON = 13;
         public static int FINISH_BILL_BUTTON = 14;
+        public static int SELECT_CLIENT_BUTTON = 15;
+        public static int DISCOUNT_FIELD = 16;
     }
 }

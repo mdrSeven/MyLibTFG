@@ -36,7 +36,7 @@ public class SelectClients extends JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         clientsTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         nifLabel.setText("DNI/CIF");
 
@@ -103,6 +103,7 @@ public class SelectClients extends JFrame {
         poblateTable();
 
         searchButton.addActionListener(new SelectClientsEvents());
+        clientsTable.addMouseListener(new SelectClientsEvents());
         pack();
         setVisible(true);
     }

@@ -24,11 +24,12 @@ public class SelectArticles extends JFrame{
     public static javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JButton searchButton;
     
-    public SelectArticles(){
+    public SelectArticles() throws FileNotFoundException{
         initComponents();
     }
 
-    private void initComponents() {
+    private void initComponents() throws FileNotFoundException {
+        setTitle("Artículos");
         codeLabel = new javax.swing.JLabel();
         codeText = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
@@ -102,7 +103,9 @@ public class SelectArticles extends JFrame{
                                 .addContainerGap())
         );
 //</editor-fold>
-            
+        
+        poblateTable();
+        
         pack();
         setVisible(true);
     }
@@ -111,6 +114,7 @@ public class SelectArticles extends JFrame{
         ArrayList<Book> books = JsonHelper.getAllBooks();
 
         DefaultTableModel tbm = (DefaultTableModel) articlesTable.getModel();
+        tbm.setRowCount(0);
         for (Book b : books) {
             Object row[] = {b.getCode(), b.getName(), b.getAmount(), b.getPrice(), b.getIvaPercentage(), b.getDetails()};
             tbm.addRow(row);

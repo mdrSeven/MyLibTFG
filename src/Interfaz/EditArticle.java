@@ -42,11 +42,7 @@ public class EditArticle extends JFrame{
     }
     
     private void initComponents(){
-        try {
-            UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch(Exception ex){
-            
-        }
+
         codeLabel = new javax.swing.JLabel();
         codeText = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
