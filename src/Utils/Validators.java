@@ -5,6 +5,10 @@
  */
 package Utils;
 
+import Helpers.JsonHelper;
+import Objects.Client;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import org.apache.commons.validator.routines.*;
 
 public class Validators {
@@ -22,7 +26,19 @@ public class Validators {
                 return false;
             }
 
-            return dniLetter == characters.charAt((int) (dniNumber % 23));
+            if (dniLetter != characters.charAt((int) (dniNumber % 23))) {
+                JOptionPane.showMessageDialog(null, "El DNI no es correcto", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            ArrayList<Client> clients = JsonHelper.getAllClients();
+            for(Client c : clients){
+                if(c.getDni().equals(dni)){
+                    JOptionPane.showMessageDialog(null, "Ese DNI ya existe en base de datos!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+            return true;
         } else {
             return true;
         }

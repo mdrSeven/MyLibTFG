@@ -82,6 +82,7 @@ public class CreateClientWindow extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+        createButton.removeActionListener(createButton.getListeners(ActionListener.class)[0]);
         this.dispose();
     }
     

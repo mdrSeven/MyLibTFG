@@ -47,16 +47,17 @@ public class JsonHelper {
         }
     }
 
-    public static void insertBook(Book book) throws IOException {
+    public static boolean insertBook(Book book) throws IOException {
         ArrayList<Book> bookList = getAllBooks();
 
         if (validateBookInsertion(bookList, book)) {
             bookList.add(book);
             saveBookList(bookList);
             JOptionPane.showMessageDialog(null, "Artículo insertado correctamente", "Artículo Insertado", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Ese ISBN ya existe en la base de datosa!", "Error", JOptionPane.ERROR_MESSAGE);
-
+            return false;
         }
     }
 
@@ -112,12 +113,13 @@ public class JsonHelper {
         }
     }
 
-    public static void insertClient(Client client) throws IOException {
+    public static boolean insertClient(Client client) throws IOException {
         ArrayList<Client> clientsList = getAllClients();
 
         clientsList.add(client);
         saveClientList(clientsList);
         JOptionPane.showMessageDialog(null, "Cliente insertado correctamente", "Cliente Insertado", JOptionPane.INFORMATION_MESSAGE);
+        return true;
     }
 
     public static Client searchClient(String dni) {

@@ -44,7 +44,6 @@ public class CreateClientEvents implements ActionListener {
         Client client = getClient();
 
         if (!Validators.validateDNI(client.getDni())) {
-            JOptionPane.showMessageDialog(null, "DNI no válido", "Error de DNI", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
