@@ -35,6 +35,8 @@ public class Main {
         File reportsDirectory = new File("C:\\MyLib\\FacturasPDF");
         if(!mainDirectory.exists())
             mainDirectory.mkdir();
+        if(!reportsDirectory.exists())
+            reportsDirectory.mkdir();
         SettingsHelper.readSettings();
        new MainWindow();
     }
