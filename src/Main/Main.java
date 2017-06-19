@@ -31,12 +31,11 @@ import java.util.ArrayList;
  */
 public class Main {
     public static void main(String args[]) throws ClassNotFoundException, IOException, FileNotFoundException, BadElementException{
-        File directory = new File("C:\\MyLib");
-        if(!directory.exists())
-            directory.mkdir();
+        File mainDirectory = new File("C:\\MyLib");
+        File reportsDirectory = new File("C:\\MyLib\\FacturasPDF");
+        if(!mainDirectory.exists())
+            mainDirectory.mkdir();
         SettingsHelper.readSettings();
        new MainWindow();
-//        Bill b = JsonHelper.searchBill(8);
-//        PdfHelper.createPDF(b);
     }
 }

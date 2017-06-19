@@ -36,12 +36,12 @@ public class PdfHelper {
     public static void createPDF(Bill b) throws FileNotFoundException, BadElementException, IOException {
         try {
             Document document = new Document(PageSize.A4, 20, 20, 20, 20);
-            File f = new File("C://MyLib//Factura" + b.getBillNumber() + ".pdf");
+            File f = new File("C:\\MyLib\\FacturasPDF\\Factura n" + b.getBillNumber() + ".pdf");
             if (f.exists()) {
                 f.delete();
             }
             try {
-                PdfWriter.getInstance(document, new FileOutputStream("C://MyLib//Factura n" + b.getBillNumber() + ".pdf"));
+                PdfWriter.getInstance(document, new FileOutputStream("C:\\MyLib\\FacturasPDF\\Factura n" + b.getBillNumber() + ".pdf"));
             } catch (FileNotFoundException fileNotFoundException) {
             }
             document.open();
