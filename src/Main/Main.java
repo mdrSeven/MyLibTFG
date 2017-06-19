@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Executable;
+package Main;
 
+import Helpers.JsonHelper;
 import static Helpers.JsonHelper.*;
 import Helpers.PdfHelper;
 import Helpers.SettingsHelper;
@@ -18,7 +19,9 @@ import Interfaz.SelectClients;
 import Interfaz.SettingsWindow;
 import Objects.Bill;
 import Objects.Client;
+import com.itextpdf.text.BadElementException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,12 +30,13 @@ import java.util.ArrayList;
  * @author Pablo
  */
 public class Main {
-    public static void main(String args[]) throws ClassNotFoundException, IOException{
-//        File directory = new File("C:\\MyLib");
-//        if(!directory.exists())
-//            directory.mkdir();
-//        SettingsHelper.readSettings();
-//       new MainWindow();
-           PdfHelper.createPDF(new Bill(0, 0, new ArrayList(), 0, 0, new Client("Perro", "77491330y", "a", "b", "c", "kiniere@hotmail.com", 689923442)));
+    public static void main(String args[]) throws ClassNotFoundException, IOException, FileNotFoundException, BadElementException{
+        File directory = new File("C:\\MyLib");
+        if(!directory.exists())
+            directory.mkdir();
+        SettingsHelper.readSettings();
+       new MainWindow();
+//        Bill b = JsonHelper.searchBill(8);
+//        PdfHelper.createPDF(b);
     }
 }

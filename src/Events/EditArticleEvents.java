@@ -18,7 +18,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -65,6 +67,9 @@ public class EditArticleEvents implements ActionListener, FocusListener {
             case CANCEL_BUTTON:
                 EditArticle.togglePanel(false);
                 break;
+            case CLOSE_BUTTON:
+                JButton btn = (JButton)ae.getSource();
+                SwingUtilities.getWindowAncestor(btn).dispose();
         }
     }
 

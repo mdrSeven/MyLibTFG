@@ -49,6 +49,7 @@ public class EditClient extends JFrame implements ActionListener{
 
     private void initComponents() {
         
+        setTitle("Editar Cliente");
         nifLabel = new javax.swing.JLabel();
         nifText = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();

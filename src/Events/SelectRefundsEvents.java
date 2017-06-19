@@ -31,7 +31,7 @@ public class SelectRefundsEvents implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         switch (idElement) {
             case SEARCH_BUTTON:
-                searchBill();
+                searchRefund();
                 break;
             case SHOW_ALL_BUTTON:
                 SelectRefundsWindow.poblateTable();
@@ -43,7 +43,7 @@ public class SelectRefundsEvents implements ActionListener {
         }
     }
 
-    private void searchBill() {
+    private void searchRefund() {
         try {
             int refundNum = Integer.parseInt(SelectRefundsWindow.refundNumberText.getText());
             Refund refundToSearch = JsonHelper.searchRefund(refundNum);

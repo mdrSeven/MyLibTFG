@@ -1,6 +1,7 @@
 package Events;
 
 import Helpers.JsonHelper;
+import Helpers.PdfHelper;
 import Interfaz.*;
 import static Interfaz.MainWindow.MainWindowConstants.*;
 import Objects.Bill;
@@ -9,6 +10,7 @@ import Objects.Product;
 import Objects.Refund;
 import Utils.SettingsConfig;
 import Utils.Validators;
+import com.itextpdf.text.BadElementException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -38,13 +40,13 @@ import javax.swing.SwingUtilities;
  * @author Pablo
  */
 public class MainWindowEvents implements ActionListener, KeyListener {
-
+    
     int idElement;
-
+    
     public MainWindowEvents(int id) {
         this.idElement = id;
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         switch (idElement) {
@@ -97,7 +99,9 @@ public class MainWindowEvents implements ActionListener, KeyListener {
             }
             break;
             case REMOVE_ARTICLE_BUTTON:
+                removeArticle();
                 break;
+                
             case REMOVE_ROW_BUTTON:
                 MainWindow.removeRow();
                 MainWindow.updateAmounts();
@@ -119,6 +123,8 @@ public class MainWindowEvents implements ActionListener, KeyListener {
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(MainWindowEvents.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (BadElementException ex) {
+                    Logger.getLogger(MainWindowEvents.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             break;
@@ -127,10 +133,10 @@ public class MainWindowEvents implements ActionListener, KeyListener {
                 break;
         }
     }
-
+    
     private void addArticle() throws FileNotFoundException {
         String searchedCode = MainWindow.codeText.getText();
-
+        
         Book searchedBook = JsonHelper.searchBook(searchedCode);
         if (searchedBook != null) {
             MainWindow.addBookToBill(searchedBook);
@@ -140,17 +146,18 @@ public class MainWindowEvents implements ActionListener, KeyListener {
             updateTotal();
         } else {
             JOptionPane.showMessageDialog(null, "Artículo no encontrado", "Error", JOptionPane.INFORMATION_MESSAGE);
+            MainWindow.codeText.setText("");
         }
-
+        
     }
-
+    
     private void updateTotal() {
         MainWindow.updateAmounts();
     }
-
-    private boolean finishBill() throws IOException {
+    
+    private boolean finishBill() throws IOException, FileNotFoundException, BadElementException {
         int reply = JOptionPane.showConfirmDialog(null, "¿Desea finalizar la factura?", "Aviso", JOptionPane.YES_NO_OPTION);
-
+        
         if (reply == JOptionPane.YES_OPTION) {
             ArrayList<Product> products = MainWindow.getProducts();
             if (validateBill(products)) {
@@ -165,14 +172,15 @@ public class MainWindowEvents implements ActionListener, KeyListener {
                         JOptionPane.showMessageDialog(null, "Los artículos con código [ " + String.join(",", codes) + " ] tienen un stock muy bajo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
+                PdfHelper.createPDF(createdBill);
                 return true;
             }
             return false;
         }
-
+        
         return false;
     }
-
+    
     private boolean validateBill(ArrayList<Product> products) throws FileNotFoundException, IOException {
         ArrayList<Book> booksToUpdate = new ArrayList();
         for (Product product : products) {
@@ -190,29 +198,29 @@ public class MainWindowEvents implements ActionListener, KeyListener {
         }
         return true;
     }
-
+    
     private void assignClient() {
         new SelectClients();
     }
-
+    
     public void newBill(ActionEvent ae) {
         JMenuItem menuItem = (JMenuItem) ae.getSource();
         JPopupMenu popUp = (JPopupMenu) menuItem.getParent();
         Component invoker = popUp.getInvoker();
         JMenuBar menuBar = (JMenuBar) invoker.getParent();
         SwingUtilities.getWindowAncestor(menuBar).dispose();
-
+        
         new MainWindow();
     }
-
+    
     private void createRefund() {
         MainWindow.isRefund = true;
         new SelectBillWindow();
     }
-
-    private boolean finishRefund() throws IOException {
+    
+    private boolean finishRefund() throws IOException, FileNotFoundException, BadElementException {
         int reply = JOptionPane.showConfirmDialog(null, "¿Desea finalizar la devolución?", "Aviso", JOptionPane.YES_NO_OPTION);
-
+        
         if (reply == JOptionPane.YES_OPTION) {
             Bill originalBill = JsonHelper.searchBill(Integer.parseInt(MainWindow.billNumberText.getText()));
             ArrayList<Product> refundedProducts = getRefundedProducts(originalBill);
@@ -222,7 +230,7 @@ public class MainWindowEvents implements ActionListener, KeyListener {
             } else {
                 //Creación e inserción de nueva devolución.
                 Refund ref = new Refund(JsonHelper.getCurrentRefundNumber(), originalBill.getBillNumber(),
-                        Double.parseDouble(MainWindow.subTotalText.getText().replaceAll(",", ".")), 
+                        Double.parseDouble(MainWindow.subTotalText.getText().replaceAll(",", ".")),
                         Double.parseDouble(MainWindow.totalText.getText().replaceAll(",", ".")),
                         refundedProducts);
                 JsonHelper.insertRefund(ref);
@@ -231,7 +239,10 @@ public class MainWindowEvents implements ActionListener, KeyListener {
                 Bill bill = new Bill(JsonHelper.getCurrentBillNumber(), originalBill.getDiscount(),
                         MainWindow.getProducts(), ref.getSubTotal(), ref.getTotal(), originalBill.getAssignedClient());
                 JsonHelper.insertBill(bill);
-
+                
+                //Generación de PDF
+                PdfHelper.createPDF(bill);
+                
                 //Actualización del stock
                 ArrayList<Book> booksToUpdate = new ArrayList();
                 for (Product product : refundedProducts) {
@@ -244,19 +255,18 @@ public class MainWindowEvents implements ActionListener, KeyListener {
                 }
                 return true;
             }
-
+            
         }
         
         return false;
     }
-
-
+    
     private ArrayList<Product> getRefundedProducts(Bill originalBill) {
         ArrayList<Product> actualProducts = MainWindow.getProducts();
         ArrayList<Product> refundedProducts = new ArrayList<>();
-
+        
         for (Product p : originalBill.getProducts()) {
-
+            
             for (int n = 0; n < actualProducts.size(); n++) {
                 Product pa = actualProducts.get(n);
                 if (p.getCode().equals(pa.getCode()) && p.getAmount() != pa.getAmount()) {
@@ -269,36 +279,53 @@ public class MainWindowEvents implements ActionListener, KeyListener {
                 }
             }
         }
-
+        
         return refundedProducts;
     }
-
+    
     @Override
-        public void keyTyped(KeyEvent ke) {
-
+    public void keyTyped(KeyEvent ke) {
+        
     }
-
+    
     @Override
-        public void keyPressed(KeyEvent ke) {
-
+    public void keyPressed(KeyEvent ke) {
+        
     }
-
+    
     @Override
-        public void keyReleased(KeyEvent ke) {
-        String discount = MainWindow.discountText.getText();
-        if (Validators.validateNumber(discount)) {
-            double discountNumber = Double.parseDouble(discount);
-            if (discountNumber < 100) {
+    public void keyReleased(KeyEvent ke) {
+        if (idElement == DISCOUNT_FIELD) {
+            String discount = MainWindow.discountText.getText();
+            if (Validators.validateNumber(discount)) {
+                double discountNumber = Double.parseDouble(discount);
+                if (discountNumber < 100) {
+                    MainWindow.updateAmounts();
+                    double currentTotal = Double.parseDouble(MainWindow.totalText.getText().replaceAll(",", "."));
+                    double totalResult = currentTotal - ((currentTotal * discountNumber) / 100);
+                    MainWindow.totalText.setText(String.format("%.2f", totalResult));
+                } else {
+                    ke.consume();
+                }
+            } else if (discount.isEmpty()) {
                 MainWindow.updateAmounts();
-                double currentTotal = Double.parseDouble(MainWindow.totalText.getText().replaceAll(",", "."));
-                double totalResult = currentTotal - ((currentTotal * discountNumber) / 100);
-                MainWindow.totalText.setText(String.format("%.2f", totalResult));
-            } else {
-                ke.consume();
             }
-        } else if (discount.isEmpty()) {
-            MainWindow.updateAmounts();
+        } else if (idElement == CODE_FIELD) {
+            if (SettingsConfig.autoSearch) {
+                if (MainWindow.codeText.getText().length() == 13) {
+                    try {
+                        addArticle();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MainWindowEvents.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         }
     }
 
+    private void removeArticle() {
+        MainWindow.removeArticle();
+        MainWindow.updateAmounts();
+    }
+    
 }

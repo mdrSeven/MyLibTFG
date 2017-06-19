@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import Events.SelectArticleEvents;
 import Helpers.JsonHelper;
 import Objects.Book;
 import java.io.FileNotFoundException;
@@ -104,6 +105,9 @@ public class SelectArticles extends JFrame{
         );
 //</editor-fold>
         
+        //Eventos
+        searchButton.addActionListener(new SelectArticleEvents());
+        articlesTable.addMouseListener(new SelectArticleEvents());
         poblateTable();
         
         pack();

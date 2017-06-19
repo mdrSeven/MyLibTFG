@@ -77,6 +77,10 @@ public class SelectBillEvents implements ActionListener, MouseListener {
                 MainWindow.toggleButtons(true);
                 MainWindow.billNumberLabel.setText("Número de factura a devolver: ");
                 MainWindow.billNumberText.setText(""+b.getBillNumber());
+                MainWindow.finishBillButton.setText("Finalizar Devolución");
+                MainWindow.selectClientButton.setEnabled(false);
+                MainWindow.discountText.setEditable(false);
+                MainWindow.addArticleButton.setEnabled(false);
             } catch (FileNotFoundException ex) {
                 
             }

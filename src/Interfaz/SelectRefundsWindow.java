@@ -32,6 +32,8 @@ public class SelectRefundsWindow extends JFrame {
     }
 
     private void initialize() {
+        
+        setTitle("Devoluciones");
         refundNumber = new javax.swing.JLabel();
         refundNumberText = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();

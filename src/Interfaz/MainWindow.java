@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -79,11 +80,15 @@ public class MainWindow extends JFrame {
     public static javax.swing.JLabel billNumberLabel;
     public static javax.swing.JLabel billNumberText;
 
+
     public MainWindow() {
         initComponents();
     }
 
     private void initComponents() {
+        
+        setTitle("MyLib");
+        //<editor-fold defaultstate="collapsed" desc="Inicialización">
         SpinnerModel model = new SpinnerNumberModel(1, 1, 40, 1);
         amountSpinner = new javax.swing.JSpinner(model);
         jLabel1 = new javax.swing.JLabel();
@@ -122,19 +127,23 @@ public class MainWindow extends JFrame {
         queryClientsItem = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         preferencesItem = new javax.swing.JMenuItem();
+//</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Ajustes estéticos">
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        
         jLabel1.setText("Código del artículo:");
-
+        
+        removeButton.setEnabled(false);
+        
         addArticleButton.setText("Añadir");
-
+        
         removeButton.setText("Quitar");
-
+        
         finishBillButton.setText("Finalizar Devolución");
-
+        
         removeRowButton.setText("Eliminar Fila");
-
+        
         mainTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
                     {null, null, null, null, null, null, null},
@@ -152,75 +161,75 @@ public class MainWindow extends JFrame {
             boolean[] canEdit = new boolean[]{
                 false, false, false, false, false, false, false
             };
-
+            
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
-
+            
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(mainTable);
-
+        
         selectClientButton.setText("Seleccionar Cliente");
-
+        
         selectedClientLabel.setText("Ningun Cliente Seleccionado");
-
+        
         discountLabel.setText("DESCUENTO(%): ");
         
         discountText.setText("0");
-
+        
         subTotalLabel.setText("SUBTOTAL:");
-
+        
         totalLabel.setText("TOTAL:");
-
+        
         billNumberLabel.setText("Nº Factura: ");
-
+        
         billNumberText.setText("0");
-
+        
         jMenu1.setText("Factura");
-
+        
         newBillItem.setText("Nueva Factura");
         jMenu1.add(newBillItem);
-
+        
         refundBillItem.setText("Nueva Devolución");
         jMenu1.add(refundBillItem);
-
+        
         jMenuBar1.add(jMenu1);
-
+        
         registerItem.setText("Alta/Devolución");
-
+        
         jMenu5.setText("Alta");
-
+        
         registerArticleItem.setText("Artículo");
         jMenu5.add(registerArticleItem);
-
+        
         registerClientItem.setText("Cliente");
         jMenu5.add(registerClientItem);
-
+        
         registerItem.add(jMenu5);
-
+        
         editMenu.setText("Modificación");
-
+        
         editArticleItem.setText("Artículo");
         editMenu.add(editArticleItem);
-
+        
         editClientItem.setText("Cliente");
         editMenu.add(editClientItem);
-
+        
         registerItem.add(editMenu);
-
+        
         jMenuBar1.add(registerItem);
-
+        
         jMenu3.setText("Consultas");
-
+        
         queryBillsItem.setText("Facturas");
         jMenu3.add(queryBillsItem);
-
+        
         queryRefundsItem.setText("Devoluciones");
         jMenu3.add(queryRefundsItem);
-
+        
         queryArticlesItem.setText("Artículos");
         jMenu3.add(queryArticlesItem);
         
@@ -228,16 +237,16 @@ public class MainWindow extends JFrame {
         jMenu3.add(queryClientsItem);
         
         jMenuBar1.add(jMenu3);
-
+        
         jMenu4.setText("Configuración");
-
+        
         preferencesItem.setText("Preferencias");
         jMenu4.add(preferencesItem);
-
+        
         jMenuBar1.add(jMenu4);
-
+        
         setJMenuBar(jMenuBar1);
-
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,6 +321,7 @@ public class MainWindow extends JFrame {
                                 .addComponent(billNumberLabel)
                                 .addComponent(billNumberText)))
         );
+//</editor-fold>
 
         pack();
 
@@ -333,6 +343,7 @@ public class MainWindow extends JFrame {
         finishBillButton.addActionListener(new MainWindowEvents(FINISH_BILL_BUTTON));
         selectClientButton.addActionListener(new MainWindowEvents(SELECT_CLIENT_BUTTON));
         discountText.addKeyListener(new MainWindowEvents(DISCOUNT_FIELD));
+        codeText.addKeyListener(new MainWindowEvents(CODE_FIELD));
 
 //</editor-fold>
         toggleButtons(false);
@@ -412,6 +423,7 @@ public class MainWindow extends JFrame {
     }
 
     public static void toggleButtons(boolean status) {
+        removeButton.setEnabled(status);
         removeRowButton.setEnabled(status);
         finishBillButton.setEnabled(status);
         selectClientButton.setEnabled(status);
@@ -423,6 +435,23 @@ public class MainWindow extends JFrame {
             products.add(new Product((String)mainTable.getValueAt(n, 1), (Integer)mainTable.getValueAt(n, 0)));
         }
         return products;
+    }
+    
+    public static void removeArticle() {
+        for (int n = 0; n < mainTable.getRowCount(); n++) {
+            String code  = (String) mainTable.getValueAt(n, 1);
+            if(code.equals(codeText.getText())){
+                int removeAmount = (Integer)amountSpinner.getValue();
+                int actualAmount = (Integer)mainTable.getValueAt(n, 0);
+                
+                if(actualAmount - removeAmount <= 0){
+                    JOptionPane.showMessageDialog(null, "No hay tantos articulos en la factura!", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    mainTable.setValueAt(actualAmount - removeAmount, n, 0);
+                }
+            }
+          //  double rowSubTotal = price * amount;
+        }
     }
 
     public interface MainWindowConstants {
@@ -443,5 +472,6 @@ public class MainWindow extends JFrame {
         public static int FINISH_BILL_BUTTON = 14;
         public static int SELECT_CLIENT_BUTTON = 15;
         public static int DISCOUNT_FIELD = 16;
+        public static int CODE_FIELD = 17;
     }
 }
